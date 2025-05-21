@@ -1,0 +1,360 @@
+---
+title: "Final Project: Debatten om prostitution i danske aviser 1830-1885"
+author: "Ellen Juul Randbøll"
+format: html
+editor: source
+---
+
+# Upload relevante biblioteker 
+
+Jeg indlæser først relevante R-pakker ved hjælp af library() funktionen. De relevante pakker er i mit tilfælde tidyverse, tidytext, ggwordcloud, urltools, dplyr, lubridate, ggplot2, stingr og readr. Disse pakker udvider R's basisfunktioner med funktioner til fx textmining og visualisering, hvilket bliver relevant i mit projekt. 
+
+
+```{r library, message=FALSE}
+library(tidyverse)
+library(tidytext)
+library(ggwordcloud)
+library(urltools)
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+library(stringr)
+library(readr)
+```
+
+# Data indlæses fra artikler, der omhandler prostitution i årene 1830-1885. 
+
+Datasættet indlæses i R via et "retrieve link" fra API'en. Jeg har benyttet [Swagger UI](http://labs.statsbiblioteket.dk/labsapi/api//api-docs?url=/labsapi/api/openapi.yaml) til at få det korrekte link.
+```{r link}
+link <- "https://labs.statsbiblioteket.dk/labsapi/api/aviser/export/fields?query=%28prostitution%2A%20OR%20prostituere%2A%29%20AND%20py%3A%5B1830%20TO%201885%5D&fields=link&fields=recordID&fields=timestamp&fields=pwa&fields=cer&fields=fulltext_org&fields=pageUUID&fields=editionUUID&fields=titleUUID&fields=editionId&fields=familyId&fields=newspaper_page&fields=newspaper_edition&fields=lplace&fields=location_name&fields=location_coordinates&max=-1&structure=header&structure=content&format=CSV"
+```
+
+Funktionen url_decode benyttes for bedre at kunne læse URL'en. På denne måde er det muligt at se, hvordan jeg har fremsøgt data i mediestream med søgningen: (prostitution* OR prostituere*) AND py:[1800-1885]
+
+```{r url_decode}
+url_decode(link)
+```
+Data indlæses nu i R ved hjælp af read_csv-funktionen.
+
+```{r load-data}
+prostitution_1830_1885 <- read_csv(link)
+#write_csv(prostitution_1830_1885, "data/prostitution.csv")
+```
+Jeg ønsker nu at gruppere artiklerne i årtier, så jeg kan analysere udviklingen i debatten i aviserne i løbet af de forskellige årtier. Jeg vil ekstrahere årstal og gruppere avisartiklerne i årstal ved hjælp af lubridate-biblioteket, som jeg tidligere har indlæst. 
+Jeg gør derudover brugt af filter()-kommandoen og filtrerer Charlotte Amalie og Christianssted fra for at undgå engelske ord, der støjer i min wordcount. Jeg har fået hjælp af chatgpt til kommandoen. 
+
+
+```{r prostitution_årtier}
+prostitution_årtier <- prostitution_1830_1885 %>%
+  mutate(
+    year = year(timestamp),                        
+    decade = floor(year / 10) * 10                 
+    ) %>% 
+  filter(!lplace %in% c("Charlotte Amalie", "Christianssted"))
+    
+head(prostitution_årtier)
+```
+
+Der er forskelligt metadata tilgængeligt i det indlæste data; bl.a. artiklernes udgivelsessted. Jeg undersøger nu artiklernes geografiske udgivelsessted ved hjælp af funktinoerne "group_by()", "count()" og "arrange()", På denne måde ønsker jeg at bruge R til at vise, om der er en geografisk udvikling i årtierne i forhold til hvor prostitution diskuteres. 
+
+
+```{r udgivelsessted}
+prostitution_årtier %>% 
+  group_by(decade) %>% 
+  count(lplace, sort = TRUE) %>% 
+  arrange(lplace) %>% 
+  arrange(decade)
+```
+
+Jeg benytter de samme funktioner for at se, om der er en udvikling i forhold til hvilke aviser, der skriver om prostitution i løbet af årtierne. 
+
+```{r aviser}
+prostitution_årtier %>%
+  group_by(decade) %>% 
+  count(familyId, sort = TRUE) %>% 
+  arrange(decade)
+```
+
+
+Jeg er nu interesseret i at undersøge, hvor meget prostitution fylder i den offentlige debat i løbet af de forskellige årtier. Jeg benytter mig først af kode til at tælle hvor mange artikler, der blev udgivet om prostitution i hvert årti, hvorefter jeg opretter en ny tabel med det totale antal artikler, der er udgivet i årtierne. Disse tal har jeg indhentet manuelt fra mediestream vha. søgefunktionen py:[].  
+Det er herefter muligt at sammenligne artikler om prostitution i et årti med det samlede antal artikel, der er udgivet i dette årti. 
+Jeg udregner både hvor stor en procentdel af alle udgivne artikler, der nævner prostitution og hvor mange artikler, der nævner prostitution pr. 100.000 artikler. Jeg benyttede chatgpt til at få hjælp til at lave en koder til at udregne til den procentvise andel af debatten samt antal artikler om prostitution pr. 100.000  artikler. 
+
+```{r Discourse volume}
+# Antal artikler om prostitution pr. årti
+prostitution_pr_årti <- prostitution_årtier %>%
+  group_by(decade) %>%
+  summarize(prostitution_n = n())
+
+# Ny tabel med det totale antal artikler pr. årti (tal hentes manuelt fra Mediestream)
+total_artikler <- tibble(
+  decade = c(1830, 1840, 1850, 1860, 1870, 1880),
+  total_n = c(807125, 1174082, 2241903, 3794168, 7735439, 7403895) 
+)
+
+# Procentvis andel af alle artikler, der nævner prostitution*/prostituere* i hvert årti
+andel_af_debatten <- left_join(prostitution_pr_årti, total_artikler, by = "decade") %>%
+  mutate(procent_af_total = round((prostitution_n / total_n) * 100, 4))
+
+# Antal artikler med ordene prostitution*/prostituere* pr. 100.000 artikler
+andel_af_debatten %>%
+  mutate(per_100k = round(prostitution_n / total_n * 100000,1))
+```
+
+Før jeg kan udføre text mining på mit datasæt, er det relevant, at jeg fjerner stopord. På denne måde sikrer jeg mig, at disse ord ikke støjer i min wordcount og tf-idf-analyse. 
+Jeg kombinerer tre forskellige stopordlister for at fange flest mulige stopord. Jeg gør brug af Max Odsbjergs stopordliste til 1800-tals dansk, en liste med danske stopord (moderne dansk) samt min egen manuelle stopordliste, hvor jeg løbende i projektet kan tilføje stopord. 
+
+
+```{r stopord}
+# Stopordliste: Max Odsbjergs liste til 1800-tals dansk
+stopord_1800 <- read_csv("https://gist.githubusercontent.com/maxodsbjerg/1537cf14c3d46b3d30caa5d99f8758e9/raw/9f044a38505334f035be111c9a3f654a24418f6d/stopord_18_clean.csv")
+
+# Danske stopord (Hentet fra Github fra følgende link: https://gist.githubusercontent.com/berteltorp/0cf8a0c7afea7f25ed754f24cfc2467b/raw/fa34ef448aff6adbb4b6bab9bda62a8b0f1ee597/stopord.txt)
+stopord_txt <- read_lines("https://gist.githubusercontent.com/berteltorp/0cf8a0c7afea7f25ed754f24cfc2467b/raw/fa34ef448aff6adbb4b6bab9bda62a8b0f1ee597/stopord.txt")
+
+# Jeg konverterer det til en tibble med kolonnenavn 'word'
+stopord_txt <- tibble(word = stopord_txt)
+
+
+# Manuel stopordliste
+manuelle_stopord <- tibble(
+  word = c("bleven", "saadan", "maade", "derimod", "skulde", "hvilket", "endog", "saaledes", "imidlertid", "gjore", "igjen", "give", "maatte", "bleve", "saavel", "lade", "idet", "derpaa", "fandt", "engang", "meest", "ofte", "frem", "lader", "taget", "desuden", "dhhr", "hvorledes", "altsaa", "vide", "atter", "dertil", "faae", "maae", "sagde", "hedder", "neppe", "stod", "gives", "dhrr", "grad", "havt", "forst", "gaae", "seer", "staaer", "aldeles", "tillige", "gjor", "gaaer", "fore", "hiin", "omtrent", "saae", "varet", "villet", "vistnok", "baade", "bestemt", "findes", "holdt", "megen", "virkelig", "saadanne", "medens", "vcrre", "dersom", "hvormed", "deraf", "hverken", "blevne", "hvortil", "saadant", "ikte", "ganske", "veed", "faaet", "viist", "deel", "ligesaa", "holde", "hertil", "blevet", "hvoraf", "altfor", "henseende", "derom", "dere", "ifølge", "dels", "forste", "mindste", "stal", "nylig", "gange", "ingenlunde", "storre", "storste", "dennes", "lagt", "sidst", "langt", "enkelte", "hidtil", "muligt", "egne", "ifolge", "ligeledes", "staae", "uagtet", "troer", "slags", "side", "troe", "udenfor", "antal", "vedkommende", "ladet", "ethvert", "rigtignok", "kommen", "inden", "kunnet", "istand", "sinde", "viser", "gjøre", "igjennem", "viste", "lignende", "hvorpaa", "folge", "gjennem", "herved", "fremdeles", "angaaende", "mulig", "ilke", "bort", "bedste", "bedre", "bekjendt", "gode", "flal", "rette", "delte", "bavde", "danfle", "danste", "bave", "nævnte", "danfle", "flulde", "fundet", "gaaer", "længe", "overfor", "nuværende", "større", "staa", "vidt", "talte", "staar", "følgende", "fuldstændig", "gaar", "selve", "lange", "naturligvis", "hinanden", "gaaet", "strax", "næppe", "satte", "thlr", "mente")  
+)
+
+# De tre stopordslister kombineres og dubletter fjernes 
+stopord_kombineret <- bind_rows(stopord_1800, stopord_txt, manuelle_stopord) %>%
+  distinct()
+
+
+stopord_kombineret
+
+```
+
+
+Jeg vil nu finde de 100 mest hyppigt brugte ord i artiklerne om prostitution i de forskellige årtier. 
+Jeg splitter først tekstfeltet "fulltext_org" op i individuelle ord (tokens). Der er OCR-fejl i artiklerne, hvorfor jeg vælger at sortere ord på mindre end tre bogstaver samt tal fra vha. af filter()-kommandoen. Jeg benytter herefter anti_join()-funktionen for at fjerne alle ord, der findes i min samlede stopordliste (stopord_kombineret). 
+
+De 100 hyppigst forekomne ord i 1830'erne:  
+```{r top 100 ord i 1830'erne}
+# Filtrer artikler fra årtiet 1830-1839
+prostitution_1830s <- prostitution_årtier %>%
+  filter(decade == 1830)
+
+glimpse(prostitution_1830s)
+
+# De 100 hyppigst forekomne ord i 1830'erne
+prostitution_1830s_tidy <- prostitution_1830s %>%
+  unnest_tokens(word, fulltext_org) %>%
+   filter(str_length(word) > 3) %>%
+  filter(!str_detect(word, "\\d")) %>% 
+  anti_join(stopord_kombineret, by = "word") %>%
+  count(word, sort = TRUE) %>%
+  slice_max(n, n = 100)
+
+prostitution_1830s_tidy
+
+```
+
+De 100 hyppigst forekomne ord i 1840'erne:
+
+```{r top 100 ord i 1840'erne}
+
+# Filtrer artikler fra årtiet 1840-1849
+prostitution_1840s <- prostitution_årtier %>%
+  filter(decade == 1840)
+
+glimpse(prostitution_1840s)
+
+
+# De 100 hyppigst forekomne ord i 1840'erne
+
+prostitution_1840s_tidy <- prostitution_1840s %>%
+  unnest_tokens(word, fulltext_org) %>%
+   filter(str_length(word) > 3) %>%
+  filter(!str_detect(word, "\\d")) %>% 
+  anti_join(stopord_kombineret, by = "word") %>%
+  count(word, sort = TRUE) %>%
+  slice_max(n, n = 100)
+
+prostitution_1840s_tidy
+```
+
+De 100 hyppigst forekomne ord i 1850'erne:
+
+```{r top 100 ord i 1850'erne}
+
+# Filtrer artikler fra årtiet 1850-1859
+prostitution_1850s <- prostitution_årtier %>%
+  filter(decade == 1850)
+
+glimpse(prostitution_1850s)
+
+
+# De 100 hyppigst forekomne ord i 1850'erne
+
+prostitution_1850s_tidy <- prostitution_1850s %>%
+  unnest_tokens(word, fulltext_org) %>%
+   filter(str_length(word) > 3) %>%
+  filter(!str_detect(word, "\\d")) %>% 
+  anti_join(stopord_kombineret, by = "word") %>%
+  count(word, sort = TRUE) %>%
+  slice_max(n, n = 100)
+
+prostitution_1850s_tidy
+```
+
+De 100 hyppigst forekomne ord i 1860'erne:
+```{r top 100 ord i 1860'erne}
+
+# Filtrer artikler fra årtiet 1860-1869
+prostitution_1860s <- prostitution_årtier %>%
+  filter(decade == 1860)
+
+glimpse(prostitution_1860s)
+
+# De 100 hyppigst forekomne ord i 1860'erne
+
+prostitution_1860s_tidy <- prostitution_1860s %>%
+  unnest_tokens(word, fulltext_org) %>%
+   filter(str_length(word) > 3) %>%
+  filter(!str_detect(word, "\\d")) %>% 
+  anti_join(stopord_kombineret, by = "word") %>%
+  count(word, sort = TRUE) %>%
+  slice_max(n, n = 100)
+
+prostitution_1860s_tidy
+```
+
+De 100 hyppigst forekomne ord i 1870'erne 
+```{r top 100 ord i 1870'erne}
+
+# Filtrer artikler fra årtiet 1870-1879
+prostitution_1870s <- prostitution_årtier %>%
+  filter(decade == 1870)
+
+glimpse(prostitution_1870s)
+
+# De 100 hyppigst forekomne ord i 1870'erne
+
+prostitution_1870s_tidy <- prostitution_1870s %>%
+  unnest_tokens(word, fulltext_org) %>%
+   filter(str_length(word) > 3) %>%
+  filter(!str_detect(word, "\\d")) %>% 
+  anti_join(stopord_kombineret, by = "word") %>%
+  count(word, sort = TRUE) %>%
+  slice_max(n, n = 100)
+
+prostitution_1870s_tidy
+```
+
+De 100 hyppigst forekomne ord fra 1880-1885
+```{r top 100 ord 1880-1885}
+
+# Filtrer artikler fra årtiet 1880-1885
+prostitution_1880_1885 <- prostitution_årtier %>%
+  filter(decade == 1880)
+
+glimpse(prostitution_1880_1885)
+
+
+# De 100 hyppigst forekomne ord i årene 1880-1885
+
+prostitution_1880_1885_tidy <- prostitution_1880_1885 %>%
+  unnest_tokens(word, fulltext_org) %>%
+   filter(str_length(word) > 3) %>%
+  filter(!str_detect(word, "\\d")) %>% 
+  anti_join(stopord_kombineret, by = "word") %>%
+  count(word, sort = TRUE) %>%
+  slice_max(n, n = 100)
+
+prostitution_1880_1885_tidy
+```
+
+Term frequency-inverse document frequency:
+En anden metode inden for text mining er "Term frequency-inverse document frequency". Det er med denne metode muligt at finde frem til, hvilke ord, der er mest karakteriske/unikke for hvert årti. Dette gøres ved først at udregne "Term Frequency"; altså hvor ofte et ord forekommer i et løbet af årtiet. Herefter udregnes "Inverse Document Frequency", der viser, hvor unikt et ord er i et givent årti på tværs af alle årtier. Tf-idf udregner således "the frequency of a term adjusted for how rarely it is used" (https://www.tidytextmining.com/tfidf). Det er en nyttig metode til at finde ud af hvilke ord, der har været mest unikke for de forskellige årtier. 
+
+Første trin er at bryde teksten (fulltext_org) op i individuelle ord ved hjælp af unnest_tokens()-funktionen. På dene måde får jeg ét ord pr. række i datasættet. Stopord, tal og ord på under tre bogstaver filtreres fra.
+
+```{r preparing for tf-idf}
+prostitution_årtier_tidy <- prostitution_årtier %>% 
+  unnest_tokens(word, fulltext_org) %>% 
+  filter(!str_detect(word, "\\d")) %>%        
+  filter(str_length(word) > 3) %>%  
+   anti_join(stopord_kombineret, by = "word")
+
+```
+
+
+Det er nu muligt at tælle, hvor hyppigt et givent ord forekommer i de forskellige årtier ved hjælp af count()-funktionen. 
+
+```{r count words per decade}
+prostitution_årtier_tidy %>%
+  count(decade, word, sort = TRUE)
+```
+
+Jeg ønsker at finde frem til ordenes frekvens i de forskellige årtier. Derfor tælles først det totale antal ord pr. årti. 
+```{r total words per decade}
+prostitution_årtier_tidy %>% 
+  count(decade, word, sort = TRUE) %>% 
+  group_by(decade) %>% 
+  summarise(total = sum(n)) -> total_words
+
+total_words
+```
+
+Den nye kolonne med totale antal ord pr. årti tilføjes til min dataframe med kommandoen left_join(). 
+
+```{r add total_words to dataframe}
+prostitution_årtier_tidy %>%
+  count(decade, word, sort = TRUE) %>% 
+  left_join(total_words, by = "decade") -> prostitution_årtier_counts
+prostitution_årtier_counts
+```
+
+
+Jeg udregner nu "Term frequency-inverse document frequency" med bind_tf_idf()-funktionen. Jeg benytter arrange()-funktionen til at få vist de ord, der har højest tf-idf-værdi, først. 
+
+```{r tf-idf}
+prostitution_tfidf_ny <- prostitution_årtier_counts %>% 
+  bind_tf_idf(word, "decade", n) %>% 
+  arrange(desc(tf_idf))
+
+prostitution_tfidf_ny
+```
+
+
+Jeg ønsker nu at visualisere ordene med den højeste tf-idf-værdi for hvert årti i en wordcloud. Dette gøres ved hjælp af ggplot. Det er på denne måde muligt at få et overblik over hvilke ord, der er unikke og vigtige for hvert årti. 
+
+```{r}
+prostitution_tfidf_ny %>%
+  arrange(desc(tf_idf)) %>%
+  mutate(word = factor(word, levels = rev(unique(word)))) %>% 
+  group_by(decade) %>% 
+  slice_max(tf_idf, n = 8) %>% 
+  ungroup() %>%
+  ggplot(aes(label = word, size = tf_idf, color = tf_idf)) +
+  geom_text_wordcloud_area() +
+  scale_size_area(max_size = 20) +
+  theme_minimal() +
+  facet_wrap(~decade, ncol = 4, scales = "free") +
+  scale_color_gradient(low = "darkgoldenrod2", high = "darkgoldenrod4") +
+  labs(
+    title = "Articles with prostitution* or prostituere*: most important words per decade",
+    subtitle = "Importance determined by term frequency (tf) - inverse document frequency (idf)",
+    caption = "Data from Mediestream Experimental API"
+  )
+```
+Jeg ønsker nu at gå fra distant reading til close reading for at undersøge i hvilken kontekst, ordene indgår i. Jeg vælger først at zoome ind på ordene "corfitz" (1840'erne), "arvesagen" (1850'erne), "politidirekteuren" (1860'erne"), "folketinget" (1870'erne). 
+
+"Kvinder" har en høj tf-idf-værdi i både 1870'erne og i 1880-1885, og jeg vælger at udføre nærlæse artiklerne om prostitution, hvor "kvinder" indgår.  På denne måde kan jeg undersøge den kontekst, hvori ordet "kvinder" optræder. Det er værd bemærke, at jeg kunne have stillet skarpt på flere af ordene, hvis opgavens omfang havde været større.  
+```{r word: "kvinder" 1870}
+prostitution_årtier %>% 
+  filter(decade == 1870) %>% 
+  filter(str_detect(fulltext_org, regex("kvinder", ignore_case = TRUE)))
+```
+
+```{r word: "kvinder" 1880}
+prostitution_årtier %>% 
+  filter(decade == 1880) %>% 
+  filter(str_detect(fulltext_org, regex("kvinder", ignore_case = TRUE)))
+```
