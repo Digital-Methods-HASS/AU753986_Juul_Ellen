@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ellen Juul Randbøll">
+
+<title>Final Project: Debatten om prostitution i danske aviser 1830-1885</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Debatten om prostitution i danske aviser 1830-1885_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Debatten om prostitution i danske aviser 1830-1885_files/libs/quarto-html/quarto.js"></script>
+<script src="Debatten om prostitution i danske aviser 1830-1885_files/libs/quarto-html/popper.min.js"></script>
+<script src="Debatten om prostitution i danske aviser 1830-1885_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Debatten om prostitution i danske aviser 1830-1885_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Debatten om prostitution i danske aviser 1830-1885_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Debatten om prostitution i danske aviser 1830-1885_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Debatten om prostitution i danske aviser 1830-1885_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Debatten om prostitution i danske aviser 1830-1885_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Debatten om prostitution i danske aviser 1830-1885_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Final Project: Debatten om prostitution i danske aviser 1830-1885</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ellen Juul Randbøll </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="upload-relevante-biblioteker" class="level1">
+<h1>Upload relevante biblioteker</h1>
+<p>Jeg indlæser først relevante R-pakker ved hjælp af library() funktionen. De relevante pakker er i mit tilfælde tidyverse, tidytext, ggwordcloud, urltools, dplyr, lubridate, ggplot2, stingr og readr. Disse pakker udvider R’s basisfunktioner med funktioner til fx textmining og visualisering, hvilket bliver relevant i mit projekt.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: pakke 'tidytext' blev bygget under R version 4.4.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggwordcloud)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: pakke 'ggwordcloud' blev bygget under R version 4.4.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(urltools)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: pakke 'urltools' blev bygget under R version 4.4.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-indlæses" class="level1">
+<h1>Data indlæses</h1>
+<p>Datasættet indlæses i R via et “retrieve link” fra API’en. Jeg har benyttet <a href="http://labs.statsbiblioteket.dk/labsapi/api//api-docs?url=/labsapi/api/openapi.yaml">Swagger UI</a> til at få det korrekte link.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>link <span class="ot">&lt;-</span> <span class="st">"https://labs.statsbiblioteket.dk/labsapi/api/aviser/export/fields?query=%28prostitution%2A%20OR%20prostituere%2A%29%20AND%20py%3A%5B1830%20TO%201885%5D&amp;fields=link&amp;fields=recordID&amp;fields=timestamp&amp;fields=pwa&amp;fields=cer&amp;fields=fulltext_org&amp;fields=pageUUID&amp;fields=editionUUID&amp;fields=titleUUID&amp;fields=editionId&amp;fields=familyId&amp;fields=newspaper_page&amp;fields=newspaper_edition&amp;fields=lplace&amp;fields=location_name&amp;fields=location_coordinates&amp;max=-1&amp;structure=header&amp;structure=content&amp;format=CSV"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Funktionen url_decode benyttes for bedre at kunne læse URL’en. På denne måde er det muligt at se, hvordan jeg har fremsøgt data i mediestream med søgningen: (prostitution* OR prostituere*) AND py:[1800-1885]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">url_decode</span>(link)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "https://labs.statsbiblioteket.dk/labsapi/api/aviser/export/fields?query=(prostitution* OR prostituere*) AND py:[1830 TO 1885]&amp;fields=link&amp;fields=recordID&amp;fields=timestamp&amp;fields=pwa&amp;fields=cer&amp;fields=fulltext_org&amp;fields=pageUUID&amp;fields=editionUUID&amp;fields=titleUUID&amp;fields=editionId&amp;fields=familyId&amp;fields=newspaper_page&amp;fields=newspaper_edition&amp;fields=lplace&amp;fields=location_name&amp;fields=location_coordinates&amp;max=-1&amp;structure=header&amp;structure=content&amp;format=CSV"</code></pre>
+</div>
+</div>
+<p>Data indlæses nu i R ved hjælp af read_csv-funktionen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>prostitution_1830_1885 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(link)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 6519 Columns: 16
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (11): link, recordID, fulltext_org, pageUUID, editionUUID, titleUUID, e...
+dbl   (4): pwa, cer, newspaper_page, newspaper_edition
+dttm  (1): timestamp
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#write_csv(prostitution_1830_1885, "data/prostitution.csv")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Jeg ønsker nu at gruppere artiklerne i årtier, så jeg kan analysere udviklingen i debatten i aviserne i løbet af de forskellige årtier. Jeg vil ekstrahere årstal og gruppere avisartiklerne i årstal ved hjælp af lubridate-biblioteket, som jeg tidligere har indlæst. Jeg gør derudover brugt af filter()-kommandoen og filtrerer Charlotte Amalie og Christianssted fra for at undgå engelske ord, der støjer i min wordcount. Jeg har fået hjælp af chatgpt til kommandoen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>prostitution_årtier <span class="ot">&lt;-</span> prostitution_1830_1885 <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="fu">year</span>(timestamp),                        </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">decade =</span> <span class="fu">floor</span>(year <span class="sc">/</span> <span class="dv">10</span>) <span class="sc">*</span> <span class="dv">10</span>                 </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>lplace <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Charlotte Amalie"</span>, <span class="st">"Christianssted"</span>))</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prostitution_årtier)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 18
+  link            recordID timestamp             pwa   cer fulltext_org pageUUID
+  &lt;chr&gt;           &lt;chr&gt;    &lt;dttm&gt;              &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;   
+1 http://www2.st… doms_ne… 1830-03-23 01:00:00  49.2 0.508 "Theatret. … doms_av…
+2 http://www2.st… doms_ne… 1830-06-05 01:00:00  56.6 0.434 "deviller o… doms_av…
+3 http://www2.st… doms_ne… 1830-07-10 01:00:00  60.5 0.395 "- 535 -\\n… doms_av…
+4 http://www2.st… doms_ne… 1830-08-21 01:00:00  49.9 0.501 "Du lidt vi… doms_av…
+5 http://www2.st… doms_ne… 1830-11-25 01:00:00  48.8 0.512 "- 928 -\\n… doms_av…
+6 http://www2.st… doms_ne… 1830-12-31 01:00:00  49.4 0.506 "- 1027 -\\… doms_av…
+# ℹ 11 more variables: editionUUID &lt;chr&gt;, titleUUID &lt;chr&gt;, editionId &lt;chr&gt;,
+#   familyId &lt;chr&gt;, newspaper_page &lt;dbl&gt;, newspaper_edition &lt;dbl&gt;,
+#   lplace &lt;chr&gt;, location_name &lt;chr&gt;, location_coordinates &lt;chr&gt;, year &lt;dbl&gt;,
+#   decade &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Der er forskelligt metadata tilgængeligt i det indlæste data; bl.a. artiklernes udgivelsessted. Jeg undersøger nu artiklernes geografiske udgivelsessted ved hjælp af funktinoerne “group_by()”, “count()” og “arrange()”, På denne måde ønsker jeg at bruge R til at vise, om der er en geografisk udvikling i årtierne i forhold til hvor prostitution diskuteres.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>prostitution_årtier <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(decade) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(lplace, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(lplace) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(decade)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 163 × 3
+# Groups:   decade [6]
+   decade lplace               n
+    &lt;dbl&gt; &lt;chr&gt;            &lt;int&gt;
+ 1   1830 Aabenraa             1
+ 2   1830 Aalborg              5
+ 3   1830 Aarhus              14
+ 4   1830 Haderslev            1
+ 5   1830 Horsens              4
+ 6   1830 København           38
+ 7   1830 Maribo               2
+ 8   1830 Nykøbing Falster     2
+ 9   1830 Odense              16
+10   1830 Ribe                 4
+# ℹ 153 more rows</code></pre>
+</div>
+</div>
+<p>Jeg benytter de samme funktioner for at se, om der er en udvikling i forhold til hvilke aviser, der skriver om prostitution i løbet af årtierne.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>prostitution_årtier <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(decade) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(familyId, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(decade)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 245 × 3
+# Groups:   decade [6]
+   decade familyId                         n
+    &lt;dbl&gt; &lt;chr&gt;                        &lt;int&gt;
+ 1   1830 kioebenhavnsposten1827          28
+ 2   1830 fyensstiftstidende              16
+ 3   1830 aarhusstiftstidende             14
+ 4   1830 viborgstiftstidende              9
+ 5   1830 aalborgstiftstidende             5
+ 6   1830 dagen1803                        5
+ 7   1830 bornholmsavis                    4
+ 8   1830 horsensavis1828                  4
+ 9   1830 lollandfalstersstiftstidende     4
+10   1830 ribestiftstidende                4
+# ℹ 235 more rows</code></pre>
+</div>
+</div>
+<p>Jeg er nu interesseret i at undersøge, hvor meget prostitution fylder i den offentlige debat i løbet af de forskellige årtier. Jeg benytter mig først af kode til at tælle hvor mange artikler, der blev udgivet om prostitution i hvert årti, hvorefter jeg opretter en ny tabel med det totale antal artikler, der er udgivet i årtierne. Disse tal har jeg indhentet manuelt fra mediestream vha. søgefunktionen py:[].<br>
+Det er herefter muligt at sammenligne artikler om prostitution i et årti med det samlede antal artikler, der er udgivet i dette årti. Jeg udregner både hvor stor en procentdel af alle udgivne artikler, der nævner prostitution og hvor mange artikler, der nævner prostitution pr. 100.000 artikler. Jeg benyttede chatgpt til at få hjælp til at lave en koder til at udregne til den procentvise andel af debatten samt antal artikler om prostitution pr. 100.000 artikler.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Antal artikler om prostitution pr. årti</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>prostitution_pr_årti <span class="ot">&lt;-</span> prostitution_årtier <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(decade) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">prostitution_n =</span> <span class="fu">n</span>())</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ny tabel med det totale antal artikler pr. årti (tal hentes manuelt fra Mediestream)</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>total_artikler <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">decade =</span> <span class="fu">c</span>(<span class="dv">1830</span>, <span class="dv">1840</span>, <span class="dv">1850</span>, <span class="dv">1860</span>, <span class="dv">1870</span>, <span class="dv">1880</span>),</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">total_n =</span> <span class="fu">c</span>(<span class="dv">807125</span>, <span class="dv">1174082</span>, <span class="dv">2241903</span>, <span class="dv">3794168</span>, <span class="dv">7735439</span>, <span class="dv">7403895</span>) </span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Procentvis andel af alle artikler, der nævner prostitution*/prostituere* i hvert årti</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>andel_af_debatten <span class="ot">&lt;-</span> <span class="fu">left_join</span>(prostitution_pr_årti, total_artikler, <span class="at">by =</span> <span class="st">"decade"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">procent_af_total =</span> <span class="fu">round</span>((prostitution_n <span class="sc">/</span> total_n) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">4</span>))</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Antal artikler med ordene prostitution*/prostituere* pr. 100.000 artikler</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>andel_af_debatten <span class="sc">%&gt;%</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">per_100k =</span> <span class="fu">round</span>(prostitution_n <span class="sc">/</span> total_n <span class="sc">*</span> <span class="dv">100000</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  decade prostitution_n total_n procent_af_total per_100k
+   &lt;dbl&gt;          &lt;int&gt;   &lt;dbl&gt;            &lt;dbl&gt;    &lt;dbl&gt;
+1   1830            107  807125           0.0133     13.3
+2   1840            473 1174082           0.0403     40.3
+3   1850            831 2241903           0.0371     37.1
+4   1860           1337 3794168           0.0352     35.2
+5   1870           1580 7735439           0.0204     20.4
+6   1880           2169 7403895           0.0293     29.3</code></pre>
+</div>
+</div>
+<p>Før jeg kan udføre text mining på mit datasæt, er det relevant, at jeg fjerner stopord. På denne måde sikrer jeg mig, at disse ord ikke støjer i min wordcount og tf-idf-analyse. Jeg kombinerer tre forskellige stopordlister for at fange flest mulige stopord. Jeg gør brug af Max Odsbjergs stopordliste til 1800-tals dansk, en liste med danske stopord (moderne dansk) samt min egen manuelle stopordliste, hvor jeg løbende i projektet kan tilføje stopord.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stopordliste: Max Odsbjergs liste til 1800-tals dansk</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>stopord_1800 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://gist.githubusercontent.com/maxodsbjerg/1537cf14c3d46b3d30caa5d99f8758e9/raw/9f044a38505334f035be111c9a3f654a24418f6d/stopord_18_clean.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 266 Columns: 1
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): word
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Danske stopord (Hentet fra Github fra følgende link: https://gist.githubusercontent.com/berteltorp/0cf8a0c7afea7f25ed754f24cfc2467b/raw/fa34ef448aff6adbb4b6bab9bda62a8b0f1ee597/stopord.txt)</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>stopord_txt <span class="ot">&lt;-</span> <span class="fu">read_lines</span>(<span class="st">"https://gist.githubusercontent.com/berteltorp/0cf8a0c7afea7f25ed754f24cfc2467b/raw/fa34ef448aff6adbb4b6bab9bda62a8b0f1ee597/stopord.txt"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Jeg konverterer det til en tibble med kolonnenavn 'word'</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>stopord_txt <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">word =</span> stopord_txt)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Manuel stopordliste</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>manuelle_stopord <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">word =</span> <span class="fu">c</span>(<span class="st">"bleven"</span>, <span class="st">"saadan"</span>, <span class="st">"maade"</span>, <span class="st">"derimod"</span>, <span class="st">"skulde"</span>, <span class="st">"hvilket"</span>, <span class="st">"endog"</span>, <span class="st">"saaledes"</span>, <span class="st">"imidlertid"</span>, <span class="st">"gjore"</span>, <span class="st">"igjen"</span>, <span class="st">"give"</span>, <span class="st">"maatte"</span>, <span class="st">"bleve"</span>, <span class="st">"saavel"</span>, <span class="st">"lade"</span>, <span class="st">"idet"</span>, <span class="st">"derpaa"</span>, <span class="st">"fandt"</span>, <span class="st">"engang"</span>, <span class="st">"meest"</span>, <span class="st">"ofte"</span>, <span class="st">"frem"</span>, <span class="st">"lader"</span>, <span class="st">"taget"</span>, <span class="st">"desuden"</span>, <span class="st">"dhhr"</span>, <span class="st">"hvorledes"</span>, <span class="st">"altsaa"</span>, <span class="st">"vide"</span>, <span class="st">"atter"</span>, <span class="st">"dertil"</span>, <span class="st">"faae"</span>, <span class="st">"maae"</span>, <span class="st">"sagde"</span>, <span class="st">"hedder"</span>, <span class="st">"neppe"</span>, <span class="st">"stod"</span>, <span class="st">"gives"</span>, <span class="st">"dhrr"</span>, <span class="st">"grad"</span>, <span class="st">"havt"</span>, <span class="st">"forst"</span>, <span class="st">"gaae"</span>, <span class="st">"seer"</span>, <span class="st">"staaer"</span>, <span class="st">"aldeles"</span>, <span class="st">"tillige"</span>, <span class="st">"gjor"</span>, <span class="st">"gaaer"</span>, <span class="st">"fore"</span>, <span class="st">"hiin"</span>, <span class="st">"omtrent"</span>, <span class="st">"saae"</span>, <span class="st">"varet"</span>, <span class="st">"villet"</span>, <span class="st">"vistnok"</span>, <span class="st">"baade"</span>, <span class="st">"bestemt"</span>, <span class="st">"findes"</span>, <span class="st">"holdt"</span>, <span class="st">"megen"</span>, <span class="st">"virkelig"</span>, <span class="st">"saadanne"</span>, <span class="st">"medens"</span>, <span class="st">"vcrre"</span>, <span class="st">"dersom"</span>, <span class="st">"hvormed"</span>, <span class="st">"deraf"</span>, <span class="st">"hverken"</span>, <span class="st">"blevne"</span>, <span class="st">"hvortil"</span>, <span class="st">"saadant"</span>, <span class="st">"ikte"</span>, <span class="st">"ganske"</span>, <span class="st">"veed"</span>, <span class="st">"faaet"</span>, <span class="st">"viist"</span>, <span class="st">"deel"</span>, <span class="st">"ligesaa"</span>, <span class="st">"holde"</span>, <span class="st">"hertil"</span>, <span class="st">"blevet"</span>, <span class="st">"hvoraf"</span>, <span class="st">"altfor"</span>, <span class="st">"henseende"</span>, <span class="st">"derom"</span>, <span class="st">"dere"</span>, <span class="st">"ifølge"</span>, <span class="st">"dels"</span>, <span class="st">"forste"</span>, <span class="st">"mindste"</span>, <span class="st">"stal"</span>, <span class="st">"nylig"</span>, <span class="st">"gange"</span>, <span class="st">"ingenlunde"</span>, <span class="st">"storre"</span>, <span class="st">"storste"</span>, <span class="st">"dennes"</span>, <span class="st">"lagt"</span>, <span class="st">"sidst"</span>, <span class="st">"langt"</span>, <span class="st">"enkelte"</span>, <span class="st">"hidtil"</span>, <span class="st">"muligt"</span>, <span class="st">"egne"</span>, <span class="st">"ifolge"</span>, <span class="st">"ligeledes"</span>, <span class="st">"staae"</span>, <span class="st">"uagtet"</span>, <span class="st">"troer"</span>, <span class="st">"slags"</span>, <span class="st">"side"</span>, <span class="st">"troe"</span>, <span class="st">"udenfor"</span>, <span class="st">"antal"</span>, <span class="st">"vedkommende"</span>, <span class="st">"ladet"</span>, <span class="st">"ethvert"</span>, <span class="st">"rigtignok"</span>, <span class="st">"kommen"</span>, <span class="st">"inden"</span>, <span class="st">"kunnet"</span>, <span class="st">"istand"</span>, <span class="st">"sinde"</span>, <span class="st">"viser"</span>, <span class="st">"gjøre"</span>, <span class="st">"igjennem"</span>, <span class="st">"viste"</span>, <span class="st">"lignende"</span>, <span class="st">"hvorpaa"</span>, <span class="st">"folge"</span>, <span class="st">"gjennem"</span>, <span class="st">"herved"</span>, <span class="st">"fremdeles"</span>, <span class="st">"angaaende"</span>, <span class="st">"mulig"</span>, <span class="st">"ilke"</span>, <span class="st">"bort"</span>, <span class="st">"bedste"</span>, <span class="st">"bedre"</span>, <span class="st">"bekjendt"</span>, <span class="st">"gode"</span>, <span class="st">"flal"</span>, <span class="st">"rette"</span>, <span class="st">"delte"</span>, <span class="st">"bavde"</span>, <span class="st">"danfle"</span>, <span class="st">"danste"</span>, <span class="st">"bave"</span>, <span class="st">"nævnte"</span>, <span class="st">"danfle"</span>, <span class="st">"flulde"</span>, <span class="st">"fundet"</span>, <span class="st">"gaaer"</span>, <span class="st">"længe"</span>, <span class="st">"overfor"</span>, <span class="st">"nuværende"</span>, <span class="st">"større"</span>, <span class="st">"staa"</span>, <span class="st">"vidt"</span>, <span class="st">"talte"</span>, <span class="st">"staar"</span>, <span class="st">"følgende"</span>, <span class="st">"fuldstændig"</span>, <span class="st">"gaar"</span>, <span class="st">"selve"</span>, <span class="st">"lange"</span>, <span class="st">"naturligvis"</span>, <span class="st">"hinanden"</span>, <span class="st">"gaaet"</span>, <span class="st">"strax"</span>, <span class="st">"næppe"</span>, <span class="st">"satte"</span>, <span class="st">"thlr"</span>, <span class="st">"mente"</span>)  </span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co"># De tre stopordslister kombineres og dubletter fjernes </span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>stopord_kombineret <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(stopord_1800, stopord_txt, manuelle_stopord) <span class="sc">%&gt;%</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>stopord_kombineret</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 697 × 1
+   word 
+   &lt;chr&gt;
+ 1 i    
+ 2 og   
+ 3 til  
+ 4 den  
+ 5 at   
+ 6 af   
+ 7 rd   
+ 8 a    
+ 9 for  
+10 paa  
+# ℹ 687 more rows</code></pre>
+</div>
+</div>
+<p>Jeg vil nu finde de 100 mest hyppigt brugte ord i artiklerne om prostitution i de forskellige årtier. Jeg splitter først tekstfeltet “fulltext_org” op i individuelle ord (tokens). Der er OCR-fejl i artiklerne, hvorfor jeg vælger at sortere ord på mindre end tre bogstaver samt tal fra vha. af filter()-kommandoen. Jeg benytter herefter anti_join()-funktionen for at fjerne alle ord, der findes i min samlede stopordliste (stopord_kombineret).</p>
+<p>De 100 hyppigst forekomne ord i 1830’erne:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrer artikler fra årtiet 1830-1839</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>prostitution_1830s <span class="ot">&lt;-</span> prostitution_årtier <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(decade <span class="sc">==</span> <span class="dv">1830</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(prostitution_1830s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 107
+Columns: 18
+$ link                 &lt;chr&gt; "http://www2.statsbiblioteket.dk/mediestream/avis…
+$ recordID             &lt;chr&gt; "doms_newspaperCollection:uuid:b8c995c5-64d4-4e9f…
+$ timestamp            &lt;dttm&gt; 1830-03-23 01:00:00, 1830-06-05 01:00:00, 1830-0…
+$ pwa                  &lt;dbl&gt; 49.2, 56.6, 60.5, 49.9, 48.8, 49.4, 55.3, 50.3, 4…
+$ cer                  &lt;dbl&gt; 0.508, 0.434, 0.395, 0.501, 0.512, 0.506, 0.447, …
+$ fulltext_org         &lt;chr&gt; "Theatret. Ssndags opfsrtes, uden Abonnement, Ope…
+$ pageUUID             &lt;chr&gt; "doms_aviser_page:uuid:b8c995c5-64d4-4e9f-835b-f1…
+$ editionUUID          &lt;chr&gt; "doms_aviser_edition:uuid:435b5fe9-7f1f-49de-b58c…
+$ titleUUID            &lt;chr&gt; "doms_aviser_title:uuid:f15fc878-54e7-4775-a805-a…
+$ editionId            &lt;chr&gt; "kioebenhavnsposten1827 1830-03-23 001", "roskild…
+$ familyId             &lt;chr&gt; "kioebenhavnsposten1827", "roskildeavis", "kioebe…
+$ newspaper_page       &lt;dbl&gt; 3, 3, 3, 3, 2, 3, 3, 2, 3, 6, 3, 4, 3, 3, 2, 2, 2…
+$ newspaper_edition    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1…
+$ lplace               &lt;chr&gt; "København", "Roskilde", "København", "Aarhus", "…
+$ location_name        &lt;chr&gt; "Rind\\nKapellet", "Fald", "Roe\\nRahbek\\nOre\\n…
+$ location_coordinates &lt;chr&gt; "8.9601750452,56.0903132854\\n8.14496710435,55.54…
+$ year                 &lt;dbl&gt; 1830, 1830, 1830, 1830, 1830, 1830, 1831, 1831, 1…
+$ decade               &lt;dbl&gt; 1830, 1830, 1830, 1830, 1830, 1830, 1830, 1830, 1…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># De 100 hyppigst forekomne ord i 1830'erne</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>prostitution_1830s_tidy <span class="ot">&lt;-</span> prostitution_1830s <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, fulltext_org) <span class="sc">%&gt;%</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">filter</span>(<span class="fu">str_length</span>(word) <span class="sc">&gt;</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(word, <span class="st">"</span><span class="sc">\\</span><span class="st">d"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stopord_kombineret, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">100</span>)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>prostitution_1830s_tidy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 129 × 2
+   word             n
+   &lt;chr&gt;        &lt;int&gt;
+ 1 blad            35
+ 2 prostitution    34
+ 3 anledning       33
+ 4 prostitueret    29
+ 5 sagen           28
+ 6 offentlige      25
+ 7 prostituere     25
+ 8 personer        24
+ 9 laud            23
+10 gamle           22
+# ℹ 119 more rows</code></pre>
+</div>
+</div>
+<p>De 100 hyppigst forekomne ord i 1840’erne:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrer artikler fra årtiet 1840-1849</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>prostitution_1840s <span class="ot">&lt;-</span> prostitution_årtier <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(decade <span class="sc">==</span> <span class="dv">1840</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(prostitution_1840s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 473
+Columns: 18
+$ link                 &lt;chr&gt; "http://www2.statsbiblioteket.dk/mediestream/avis…
+$ recordID             &lt;chr&gt; "doms_newspaperCollection:uuid:3d4396a1-971c-44f6…
+$ timestamp            &lt;dttm&gt; 1840-01-17 01:00:00, 1840-02-20 01:00:00, 1840-0…
+$ pwa                  &lt;dbl&gt; 47.6, 54.9, 47.5, 47.1, 58.3, 49.1, 53.1, 47.4, 5…
+$ cer                  &lt;dbl&gt; 0.524, 0.451, 0.525, 0.529, 0.417, 0.509, 0.469, …
+$ fulltext_org         &lt;chr&gt; "for Mange en Opfordring til ikke, uagtet Omstænd…
+$ pageUUID             &lt;chr&gt; "doms_aviser_page:uuid:3d4396a1-971c-44f6-a55e-52…
+$ editionUUID          &lt;chr&gt; "doms_aviser_edition:uuid:41f33ce3-c0ed-492a-abbb…
+$ titleUUID            &lt;chr&gt; "doms_aviser_title:uuid:e42dbad2-b303-4186-b2b0-b…
+$ editionId            &lt;chr&gt; "lollandfalstersstiftstidende 1840-01-17 001", "k…
+$ familyId             &lt;chr&gt; "lollandfalstersstiftstidende", "kioebenhavnspost…
+$ newspaper_page       &lt;dbl&gt; 4, 3, 2, 3, 3, 3, 4, 2, 2, 4, 2, 3, 2, 4, 4, 1, 4…
+$ newspaper_edition    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ lplace               &lt;chr&gt; "Nykøbing Falster", "København", "København", "Od…
+$ location_name        &lt;chr&gt; NA, "Hvile\\nRosenborg\\nOre", "Kilde\\nHannover\…
+$ location_coordinates &lt;chr&gt; NA, "8.73781264727,56.9585634941\\n8.70613144877,…
+$ year                 &lt;dbl&gt; 1840, 1840, 1840, 1840, 1840, 1840, 1840, 1840, 1…
+$ decade               &lt;dbl&gt; 1840, 1840, 1840, 1840, 1840, 1840, 1840, 1840, 1…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># De 100 hyppigst forekomne ord i 1840'erne</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>prostitution_1840s_tidy <span class="ot">&lt;-</span> prostitution_1840s <span class="sc">%&gt;%</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, fulltext_org) <span class="sc">%&gt;%</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">filter</span>(<span class="fu">str_length</span>(word) <span class="sc">&gt;</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(word, <span class="st">"</span><span class="sc">\\</span><span class="st">d"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stopord_kombineret, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">100</span>)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>prostitution_1840s_tidy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 104 × 2
+   word             n
+   &lt;chr&gt;        &lt;int&gt;
+ 1 kongen         198
+ 2 danmark        166
+ 3 prostitution   166
+ 4 anledning      162
+ 5 mening         156
+ 6 folk           143
+ 7 tale           143
+ 8 sagen          142
+ 9 hensyn         138
+10 danske         135
+# ℹ 94 more rows</code></pre>
+</div>
+</div>
+<p>De 100 hyppigst forekomne ord i 1850’erne:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrer artikler fra årtiet 1850-1859</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>prostitution_1850s <span class="ot">&lt;-</span> prostitution_årtier <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(decade <span class="sc">==</span> <span class="dv">1850</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(prostitution_1850s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 831
+Columns: 18
+$ link                 &lt;chr&gt; "http://www2.statsbiblioteket.dk/mediestream/avis…
+$ recordID             &lt;chr&gt; "doms_newspaperCollection:uuid:eb4d8869-7e18-409e…
+$ timestamp            &lt;dttm&gt; 1850-01-02 01:00:00, 1850-01-02 01:00:00, 1850-0…
+$ pwa                  &lt;dbl&gt; 60.2, 50.6, 55.8, 61.5, 53.0, 67.7, 48.2, 56.8, 5…
+$ cer                  &lt;dbl&gt; 0.398, 0.494, 0.442, 0.385, 0.470, 0.323, 0.518, …
+$ fulltext_org         &lt;chr&gt; "36 si. — Beyer, „Phantasie over Theamacr af\\n,,…
+$ pageUUID             &lt;chr&gt; "doms_aviser_page:uuid:eb4d8869-7e18-409e-bfc1-cd…
+$ editionUUID          &lt;chr&gt; "doms_aviser_edition:uuid:1ff1fd81-ae02-4d78-bcf0…
+$ titleUUID            &lt;chr&gt; "doms_aviser_title:uuid:cd0d4d2e-da4c-40ec-8b6f-2…
+$ editionId            &lt;chr&gt; "flyveposten 1850-01-02 001", "dannevirke1838 185…
+$ familyId             &lt;chr&gt; "flyveposten", "dannevirke1838", "kioebenhavnspos…
+$ newspaper_page       &lt;dbl&gt; 3, 3, 2, 2, 3, 1, 1, 1, 1, 2, 4, 2, 5, 1, 3, 1, 1…
+$ newspaper_edition    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ lplace               &lt;chr&gt; "København", "Haderslev", "København", "Aalborg",…
+$ location_name        &lt;chr&gt; "Fald\\nSkygge\\nLolland\\nKilde\\nGrund\\nBur", …
+$ location_coordinates &lt;chr&gt; "8.59744950799,56.9222199896\\n9.27314151293,56.1…
+$ year                 &lt;dbl&gt; 1850, 1850, 1850, 1850, 1850, 1850, 1850, 1850, 1…
+$ decade               &lt;dbl&gt; 1850, 1850, 1850, 1850, 1850, 1850, 1850, 1850, 1…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># De 100 hyppigst forekomne ord i 1850'erne</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>prostitution_1850s_tidy <span class="ot">&lt;-</span> prostitution_1850s <span class="sc">%&gt;%</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, fulltext_org) <span class="sc">%&gt;%</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">filter</span>(<span class="fu">str_length</span>(word) <span class="sc">&gt;</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(word, <span class="st">"</span><span class="sc">\\</span><span class="st">d"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stopord_kombineret, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">100</span>)</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>prostitution_1850s_tidy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 100 × 2
+   word            n
+   &lt;chr&gt;       &lt;int&gt;
+ 1 tale          395
+ 2 sagen         388
+ 3 hensyn        380
+ 4 ministeriet   360
+ 5 folk          354
+ 6 kongen        353
+ 7 forhold       349
+ 8 anledning     335
+ 9 danske        327
+10 danmark       314
+# ℹ 90 more rows</code></pre>
+</div>
+</div>
+<p>De 100 hyppigst forekomne ord i 1860’erne:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrer artikler fra årtiet 1860-1869</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>prostitution_1860s <span class="ot">&lt;-</span> prostitution_årtier <span class="sc">%&gt;%</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(decade <span class="sc">==</span> <span class="dv">1860</span>)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(prostitution_1860s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,337
+Columns: 18
+$ link                 &lt;chr&gt; "http://www2.statsbiblioteket.dk/mediestream/avis…
+$ recordID             &lt;chr&gt; "doms_newspaperCollection:uuid:4312c0d0-dd52-4157…
+$ timestamp            &lt;dttm&gt; 1860-01-07 01:00:00, 1860-01-21 01:00:00, 1860-0…
+$ pwa                  &lt;dbl&gt; 52.3, 49.8, 48.2, 49.4, 49.2, 49.5, 58.3, 55.1, 5…
+$ cer                  &lt;dbl&gt; 0.477, 0.502, 0.518, 0.506, 0.508, 0.505, 0.417, …
+$ fulltext_org         &lt;chr&gt; "Mand og alle danfle Blade — , naar han troer at …
+$ pageUUID             &lt;chr&gt; "doms_aviser_page:uuid:4312c0d0-dd52-4157-b165-3f…
+$ editionUUID          &lt;chr&gt; "doms_aviser_edition:uuid:e29aafa7-bdd5-42e5-ba09…
+$ titleUUID            &lt;chr&gt; "doms_aviser_title:uuid:cc592296-f39b-43cb-9bc7-f…
+$ editionId            &lt;chr&gt; "aalborgstiftstidende 1860-01-07 001", "dagbladet…
+$ familyId             &lt;chr&gt; "aalborgstiftstidende", "dagbladetkoebenhavn1851"…
+$ newspaper_page       &lt;dbl&gt; 3, 1, 2, 2, 4, 2, 2, 2, 3, 1, 2, 2, 1, 1, 1, 3, 1…
+$ newspaper_edition    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ lplace               &lt;chr&gt; "Aalborg", "København", "Svendborg", "Aarhus", "S…
+$ location_name        &lt;chr&gt; "Norge\\nTing\\nHamborg\\nAalborg\\nSverrig", "Fr…
+$ location_coordinates &lt;chr&gt; "9.80491708262,56.5093821893\\n8.57817548367,56.4…
+$ year                 &lt;dbl&gt; 1860, 1860, 1860, 1860, 1860, 1860, 1860, 1860, 1…
+$ decade               &lt;dbl&gt; 1860, 1860, 1860, 1860, 1860, 1860, 1860, 1860, 1…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># De 100 hyppigst forekomne ord i 1860'erne</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>prostitution_1860s_tidy <span class="ot">&lt;-</span> prostitution_1860s <span class="sc">%&gt;%</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, fulltext_org) <span class="sc">%&gt;%</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">filter</span>(<span class="fu">str_length</span>(word) <span class="sc">&gt;</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(word, <span class="st">"</span><span class="sc">\\</span><span class="st">d"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stopord_kombineret, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">100</span>)</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>prostitution_1860s_tidy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 102 × 2
+   word            n
+   &lt;chr&gt;       &lt;int&gt;
+ 1 sagen         766
+ 2 hensyn        703
+ 3 danmark       667
+ 4 kongen        667
+ 5 forhold       646
+ 6 slesvig       589
+ 7 tale          573
+ 8 folk          571
+ 9 anledning     553
+10 magistraten   496
+# ℹ 92 more rows</code></pre>
+</div>
+</div>
+<p>De 100 hyppigst forekomne ord i 1870’erne</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrer artikler fra årtiet 1870-1879</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>prostitution_1870s <span class="ot">&lt;-</span> prostitution_årtier <span class="sc">%&gt;%</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(decade <span class="sc">==</span> <span class="dv">1870</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(prostitution_1870s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,580
+Columns: 18
+$ link                 &lt;chr&gt; "http://www2.statsbiblioteket.dk/mediestream/avis…
+$ recordID             &lt;chr&gt; "doms_newspaperCollection:uuid:0873c22f-cea9-4d64…
+$ timestamp            &lt;dttm&gt; 1870-02-17 01:00:00, 1870-02-26 01:00:00, 1870-0…
+$ pwa                  &lt;dbl&gt; 47.6, 66.8, 67.2, 55.7, 59.6, 52.3, 55.8, 53.9, 5…
+$ cer                  &lt;dbl&gt; 0.524, 0.332, 0.328, 0.443, 0.404, 0.477, 0.442, …
+$ fulltext_org         &lt;chr&gt; "Torsdagen den 17. Februar.\\nAvertiaaementa- og …
+$ pageUUID             &lt;chr&gt; "doms_aviser_page:uuid:0873c22f-cea9-4d64-88de-b3…
+$ editionUUID          &lt;chr&gt; "doms_aviser_edition:uuid:76c504e0-53bc-415c-aeb4…
+$ titleUUID            &lt;chr&gt; "doms_aviser_title:uuid:c16877b9-0005-4501-b5cd-8…
+$ editionId            &lt;chr&gt; "dagstelegraphen 1870-02-17 001", "aarhusstiftsti…
+$ familyId             &lt;chr&gt; "dagstelegraphen", "aarhusstiftstidende", "dagens…
+$ newspaper_page       &lt;dbl&gt; 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 2, 2, 1, 2, 1, 4, 2…
+$ newspaper_edition    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1…
+$ lplace               &lt;chr&gt; "København", "Aarhus", "København", "Århus", "Køb…
+$ location_name        &lt;chr&gt; "Figaro\\nRom\\nTrappen\\nBelle\\nKanalen\\nTing\…
+$ location_coordinates &lt;chr&gt; "9.83590497617,56.1201604466\\n9.46710636438,55.3…
+$ year                 &lt;dbl&gt; 1870, 1870, 1870, 1870, 1870, 1870, 1870, 1870, 1…
+$ decade               &lt;dbl&gt; 1870, 1870, 1870, 1870, 1870, 1870, 1870, 1870, 1…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># De 100 hyppigst forekomne ord i 1870'erne</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>prostitution_1870s_tidy <span class="ot">&lt;-</span> prostitution_1870s <span class="sc">%&gt;%</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, fulltext_org) <span class="sc">%&gt;%</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">filter</span>(<span class="fu">str_length</span>(word) <span class="sc">&gt;</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(word, <span class="st">"</span><span class="sc">\\</span><span class="st">d"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stopord_kombineret, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">100</span>)</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>prostitution_1870s_tidy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 102 × 2
+   word          n
+   &lt;chr&gt;     &lt;int&gt;
+ 1 venstre    1341
+ 2 sagen       933
+ 3 forhold     783
+ 4 hensyn      776
+ 5 hansen      775
+ 6 tale        769
+ 7 folk        765
+ 8 medlemmer   703
+ 9 anledning   695
+10 gamle       637
+# ℹ 92 more rows</code></pre>
+</div>
+</div>
+<p>De 100 hyppigst forekomne ord fra 1880-1885</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrer artikler fra årtiet 1880-1885</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>prostitution_1880_1885 <span class="ot">&lt;-</span> prostitution_årtier <span class="sc">%&gt;%</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(decade <span class="sc">==</span> <span class="dv">1880</span>)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(prostitution_1880_1885)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,169
+Columns: 18
+$ link                 &lt;chr&gt; "http://www2.statsbiblioteket.dk/mediestream/avis…
+$ recordID             &lt;chr&gt; "doms_newspaperCollection:uuid:68174ef3-b6c6-4963…
+$ timestamp            &lt;dttm&gt; 1880-01-01 01:00:00, 1880-01-09 01:00:00, 1880-0…
+$ pwa                  &lt;dbl&gt; 50.3, 65.5, 54.3, 53.5, 49.2, 49.3, 54.4, 53.7, 5…
+$ cer                  &lt;dbl&gt; 0.497, 0.345, 0.457, 0.465, 0.508, 0.507, 0.456, …
+$ fulltext_org         &lt;chr&gt; "hoff 218. — Forhandling og Udskænkning af Brænde…
+$ pageUUID             &lt;chr&gt; "doms_aviser_page:uuid:68174ef3-b6c6-4963-9eac-bc…
+$ editionUUID          &lt;chr&gt; "doms_aviser_edition:uuid:441b2292-44fa-42bb-b1fe…
+$ titleUUID            &lt;chr&gt; "doms_aviser_title:uuid:ad047185-0271-40cf-966d-0…
+$ editionId            &lt;chr&gt; "faedrelandet1834 1880 001", "aarhusstiftstidende…
+$ familyId             &lt;chr&gt; "faedrelandet1834", "aarhusstiftstidende", "faedr…
+$ newspaper_page       &lt;dbl&gt; 4, 2, 1, 2, 1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2…
+$ newspaper_edition    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ lplace               &lt;chr&gt; "København", "Aarhus", "København", "Holstebro", …
+$ location_name        &lt;chr&gt; "Frankrig\\nØlund\\nLøn\\nRanders\\nGrenaa\\nVemb…
+$ location_coordinates &lt;chr&gt; "10.3426132261,56.3014420551\\n9.68804668151,56.0…
+$ year                 &lt;dbl&gt; 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1…
+$ decade               &lt;dbl&gt; 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># De 100 hyppigst forekomne ord i årene 1880-1885</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>prostitution_1880_1885_tidy <span class="ot">&lt;-</span> prostitution_1880_1885 <span class="sc">%&gt;%</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, fulltext_org) <span class="sc">%&gt;%</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">filter</span>(<span class="fu">str_length</span>(word) <span class="sc">&gt;</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(word, <span class="st">"</span><span class="sc">\\</span><span class="st">d"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stopord_kombineret, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">100</span>)</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>prostitution_1880_1885_tidy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 100 × 2
+   word               n
+   &lt;chr&gt;          &lt;int&gt;
+ 1 sagen           1603
+ 2 venstre         1339
+ 3 folk            1210
+ 4 tale            1197
+ 5 forhold         1158
+ 6 gamle           1073
+ 7 mode            1062
+ 8 prostitutionen  1049
+ 9 hensyn           978
+10 kvinder          977
+# ℹ 90 more rows</code></pre>
+</div>
+</div>
+<p>Term frequency-inverse document frequency: En anden metode inden for text mining er “Term frequency-inverse document frequency”. Det er med denne metode muligt at finde frem til hvilke ord, der er mest karakteriske/unikke for hvert årti. Dette gøres ved først at udregne “Term Frequency”; altså hvor ofte et ord forekommer i et løbet af årtiet. Herefter udregnes “Inverse Document Frequency”, der viser, hvor unikt et ord er i et givent årti på tværs af alle årtier. Tf-idf udregner således “the frequency of a term adjusted for how rarely it is used” (https://www.tidytextmining.com/tfidf). Det er en nyttig metode til at finde ud af hvilke ord, der har været mest unikke for de forskellige årtier.</p>
+<p>Første trin er at bryde teksten (fulltext_org) op i individuelle ord ved hjælp af unnest_tokens()-funktionen. På denne måde får jeg ét ord pr. række i datasættet. Stopord, tal og ord på under tre bogstaver filtreres fra.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>prostitution_årtier_tidy <span class="ot">&lt;-</span> prostitution_årtier <span class="sc">%&gt;%</span> </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, fulltext_org) <span class="sc">%&gt;%</span> </span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(word, <span class="st">"</span><span class="sc">\\</span><span class="st">d"</span>)) <span class="sc">%&gt;%</span>        </span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_length</span>(word) <span class="sc">&gt;</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span>  </span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">anti_join</span>(stopord_kombineret, <span class="at">by =</span> <span class="st">"word"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Det er nu muligt at tælle, hvor hyppigt et givent ord forekommer i de forskellige årtier ved hjælp af count()-funktionen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>prostitution_årtier_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(decade, word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 723,243 × 3
+   decade word               n
+    &lt;dbl&gt; &lt;chr&gt;          &lt;int&gt;
+ 1   1880 sagen           1603
+ 2   1870 venstre         1341
+ 3   1880 venstre         1339
+ 4   1880 folk            1210
+ 5   1880 tale            1197
+ 6   1880 forhold         1158
+ 7   1880 gamle           1073
+ 8   1880 mode            1062
+ 9   1880 prostitutionen  1049
+10   1880 hensyn           978
+# ℹ 723,233 more rows</code></pre>
+</div>
+</div>
+<p>Jeg ønsker at finde frem til ordenes frekvens i de forskellige årtier. Derfor tælles først det totale antal ord pr. årti.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>prostitution_årtier_tidy <span class="sc">%&gt;%</span> </span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(decade, word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(decade) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(n)) <span class="ot">-&gt;</span> total_words</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>total_words</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  decade  total
+   &lt;dbl&gt;  &lt;int&gt;
+1   1830  20774
+2   1840 123460
+3   1850 297528
+4   1860 525272
+5   1870 641429
+6   1880 908125</code></pre>
+</div>
+</div>
+<p>Den nye kolonne med totale antal ord pr. årti tilføjes til min dataframe med kommandoen left_join().</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>prostitution_årtier_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(decade, word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(total_words, <span class="at">by =</span> <span class="st">"decade"</span>) <span class="ot">-&gt;</span> prostitution_årtier_counts</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>prostitution_årtier_counts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 723,243 × 4
+   decade word               n  total
+    &lt;dbl&gt; &lt;chr&gt;          &lt;int&gt;  &lt;int&gt;
+ 1   1880 sagen           1603 908125
+ 2   1870 venstre         1341 641429
+ 3   1880 venstre         1339 908125
+ 4   1880 folk            1210 908125
+ 5   1880 tale            1197 908125
+ 6   1880 forhold         1158 908125
+ 7   1880 gamle           1073 908125
+ 8   1880 mode            1062 908125
+ 9   1880 prostitutionen  1049 908125
+10   1880 hensyn           978 908125
+# ℹ 723,233 more rows</code></pre>
+</div>
+</div>
+<p>Jeg udregner nu “Term frequency-inverse document frequency” med bind_tf_idf()-funktionen. Jeg benytter arrange()-funktionen til at få vist de ord, der har højest tf-idf-værdi, først.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>prostitution_tfidf_ny <span class="ot">&lt;-</span> prostitution_årtier_counts <span class="sc">%&gt;%</span> </span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_tf_idf</span>(word, <span class="st">"decade"</span>, n) <span class="sc">%&gt;%</span> </span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(tf_idf))</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>prostitution_tfidf_ny</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 723,243 × 7
+   decade word            n  total       tf   idf   tf_idf
+    &lt;dbl&gt; &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+ 1   1830 medicus        12  20774 0.000578 1.10  0.000635
+ 2   1830 hahnemann       6  20774 0.000289 1.79  0.000518
+ 3   1830 worms           9  20774 0.000433 1.10  0.000476
+ 4   1880 hojre         389 908125 0.000428 1.10  0.000471
+ 5   1880 kvinder       977 908125 0.00108  0.405 0.000436
+ 6   1830 bunyen          5  20774 0.000241 1.79  0.000431
+ 7   1830 paketten        5  20774 0.000241 1.79  0.000431
+ 8   1830 prati           5  20774 0.000241 1.79  0.000431
+ 9   1830 schaldemose     5  20774 0.000241 1.79  0.000431
+10   1870 venstre      1341 641429 0.00209  0.182 0.000381
+# ℹ 723,233 more rows</code></pre>
+</div>
+</div>
+<p>Jeg ønsker nu at visualisere ordene med den højeste tf-idf-værdi for hvert årti i en wordcloud. Dette gøres ved hjælp af ggplot. Det er på denne måde muligt at få et overblik over hvilke ord, der er unikke og vigtige for hvert årti.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>prostitution_tfidf_ny <span class="sc">%&gt;%</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(tf_idf)) <span class="sc">%&gt;%</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">factor</span>(word, <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">unique</span>(word)))) <span class="sc">%&gt;%</span> </span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(decade) <span class="sc">%&gt;%</span> </span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(tf_idf, <span class="at">n =</span> <span class="dv">8</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">label =</span> word, <span class="at">size =</span> tf_idf, <span class="at">color =</span> tf_idf)) <span class="sc">+</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_wordcloud_area</span>() <span class="sc">+</span></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>decade, <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">low =</span> <span class="st">"darkgoldenrod2"</span>, <span class="at">high =</span> <span class="st">"darkgoldenrod4"</span>) <span class="sc">+</span></span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Articles with prostitution* or prostituere*: most important words per decade"</span>,</span>
+<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Importance determined by term frequency (tf) - inverse document frequency (idf)"</span>,</span>
+<span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data from Mediestream Experimental API"</span></span>
+<span id="cb59-17"><a href="#cb59-17" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Debatten-om-prostitution-i-danske-aviser-1830-1885_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Jeg ønsker nu at gå fra distant reading til close reading for at undersøge i hvilken kontekst, ordene indgår i.</p>
+<p>“Kvinder” har en høj tf-idf-værdi i både 1870’erne og i 1880-1885, og jeg vælger at nærlæse artikler om prostitution, hvor “kvinder” indgår. På denne måde kan jeg undersøge den kontekst, hvori ordet “kvinder” optræder. Det er værd bemærke, at jeg kunne have stillet skarpt på flere af ordene, hvis opgavens omfang havde været større.<br>
+Først findes de artikler, hvor ordet “kvinder” indgår i 1870’erne.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>prostitution_årtier <span class="sc">%&gt;%</span> </span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(decade <span class="sc">==</span> <span class="dv">1870</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(fulltext_org, <span class="fu">regex</span>(<span class="st">"kvinder"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 224 × 18
+   link           recordID timestamp             pwa   cer fulltext_org pageUUID
+   &lt;chr&gt;          &lt;chr&gt;    &lt;dttm&gt;              &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;   
+ 1 http://www2.s… doms_ne… 1870-08-03 01:00:00  54.5 0.455 "VolitW og … doms_av…
+ 2 http://www2.s… doms_ne… 1870-09-14 01:00:00  60.7 0.393 "som vi tid… doms_av…
+ 3 http://www2.s… doms_ne… 1870-10-11 01:00:00  59.4 0.406 "Tirsdagen … doms_av…
+ 4 http://www2.s… doms_ne… 1870-11-04 01:00:00  57.6 0.424 "den næsten… doms_av…
+ 5 http://www2.s… doms_ne… 1871-01-06 01:00:00  52   0.48  "Fredagen d… doms_av…
+ 6 http://www2.s… doms_ne… 1871-01-26 01:00:00  52   0.48  "DAGS -TELE… doms_av…
+ 7 http://www2.s… doms_ne… 1871-04-23 01:00:00  52.1 0.479 "ministerie… doms_av…
+ 8 http://www2.s… doms_ne… 1871-06-08 01:00:00  68.1 0.319 "toneret. F… doms_av…
+ 9 http://www2.s… doms_ne… 1871-06-15 01:00:00  56.3 0.437 "»ti\\nFjer… doms_av…
+10 http://www2.s… doms_ne… 1871-08-21 01:00:00  51.5 0.485 "32, Tvangs… doms_av…
+# ℹ 214 more rows
+# ℹ 11 more variables: editionUUID &lt;chr&gt;, titleUUID &lt;chr&gt;, editionId &lt;chr&gt;,
+#   familyId &lt;chr&gt;, newspaper_page &lt;dbl&gt;, newspaper_edition &lt;dbl&gt;,
+#   lplace &lt;chr&gt;, location_name &lt;chr&gt;, location_coordinates &lt;chr&gt;, year &lt;dbl&gt;,
+#   decade &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Derefter findes de artikler, hvor ordet “kvinder” indgår i 1880-1885.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>prostitution_årtier <span class="sc">%&gt;%</span> </span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(decade <span class="sc">==</span> <span class="dv">1880</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(fulltext_org, <span class="fu">regex</span>(<span class="st">"kvinder"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 542 × 18
+   link           recordID timestamp             pwa   cer fulltext_org pageUUID
+   &lt;chr&gt;          &lt;chr&gt;    &lt;dttm&gt;              &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;   
+ 1 http://www2.s… doms_ne… 1880-01-01 01:00:00  50.3 0.497 "hoff 218. … doms_av…
+ 2 http://www2.s… doms_ne… 1880-01-12 01:00:00  54.3 0.457 "Bandagen d… doms_av…
+ 3 http://www2.s… doms_ne… 1880-01-22 01:00:00  58.6 0.414 "til hans H… doms_av…
+ 4 http://www2.s… doms_ne… 1880-02-27 01:00:00  48   0.52  "kele en Ke… doms_av…
+ 5 http://www2.s… doms_ne… 1880-03-19 01:00:00  47.9 0.521 "»df&lt; Xttt … doms_av…
+ 6 http://www2.s… doms_ne… 1880-04-16 01:00:00  55.9 0.441 "1878 til 2… doms_av…
+ 7 http://www2.s… doms_ne… 1880-05-12 01:00:00  54.8 0.452 "I. E. Knud… doms_av…
+ 8 http://www2.s… doms_ne… 1880-05-20 01:00:00  65.8 0.342 "Torsdagen … doms_av…
+ 9 http://www2.s… doms_ne… 1880-05-20 01:00:00  58.4 0.416 "20DC Maj 1… doms_av…
+10 http://www2.s… doms_ne… 1880-05-20 01:00:00  61.1 0.389 "Udgaar 6 G… doms_av…
+# ℹ 532 more rows
+# ℹ 11 more variables: editionUUID &lt;chr&gt;, titleUUID &lt;chr&gt;, editionId &lt;chr&gt;,
+#   familyId &lt;chr&gt;, newspaper_page &lt;dbl&gt;, newspaper_edition &lt;dbl&gt;,
+#   lplace &lt;chr&gt;, location_name &lt;chr&gt;, location_coordinates &lt;chr&gt;, year &lt;dbl&gt;,
+#   decade &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
